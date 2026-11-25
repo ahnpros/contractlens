@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ContractLens · Private contract review that never uploads your contract</title>
+    <meta
+      name="description"
+      content="ContractLens masks personal data on your device with Gemini Nano before any cloud review. Your names, phone numbers and account numbers never leave the device."
+    />
+    <script type="module" crossorigin src="/contractlens/assets/index-CWMrLB-v.js"></script>
+    <link rel="stylesheet" crossorigin href="/contractlens/assets/index-KqG2R3Uu.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">CL</span>
+        <div>
+          <h1>ContractLens</h1>
+          <p class="tagline">Private contract review that never uploads your contract.</p>
+        </div>
+      </div>
+      <div class="statusbar" aria-label="System status">
+        <div class="chip" id="chip-device">
+          <span class="dot dot-unknown"></span>
+          <span class="chip-label">On-device model (Gemini Nano)</span>
+          <strong id="device-status">checking…</strong>
+        </div>
+        <div class="chip" id="chip-network">
+          <span class="dot dot-unknown"></span>
+          <span class="chip-label">Network</span>
+          <strong id="network-status">checking…</strong>
+        </div>
+        <div class="chip" id="chip-cloud">
+          <span class="dot dot-unknown"></span>
+          <span class="chip-label">Cloud review (Firebase AI Logic)</span>
+          <strong id="cloud-status">checking…</strong>
+        </div>
+      </div>
+    </header>
+
+    <div class="mode-banner" id="mode-banner" role="status">Checking environment…</div>
+
+    <main class="layout">
+      <section class="panel input-panel">
+        <h2>1 · Your contract</h2>
+        <p class="hint">
+          Paste a contract, or load a sample. Analysis starts on this device:
+          personal data is masked here first, and only the masked text can ever
+          be sent for a cloud review.
+        </p>
+        <div class="sample-row" id="sample-row"></div>
+        <textarea
+          id="contract-input"
+          rows="18"
+          spellcheck="false"
+          placeholder="Paste contract text here (Korean or English)…"
+        ></textarea>
+        <div class="controls">
+          <label class="toggle">
+            <input type="checkbox" id="simulate-offline" />
+            Simulate offline (prove on-device masking with the network off)
+          </label>
+          <button id="download-model" class="secondary hidden" type="button">
+            Enable on-device model
+          </button>
+          <button id="analyze" class="primary" type="button">Mask &amp; review</button>
+        </div>
+        <p class="progress" id="progress" role="status"></p>
+      </section>
+
+      <section class="panel" id="mask-panel">
+        <h2>2 · What was masked, and where</h2>
+        <p class="hint">
+          The original values below are shown only on this screen, on your
+          device. They are never uploaded. Each item says which layer caught
+          it: deterministic rules, contract form fields, or Gemini Nano
+          running on-device.
+        </p>
+        <div id="mask-summary" class="empty">Run an analysis to see the masking result.</div>
+        <div class="table-wrap">
+          <table id="findings-table" class="hidden">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Type</th>
+                <th>Original value (stays on device)</th>
+                <th>Caught by</th>
+                <th>Placeholder</th>
+              </tr>
+            </thead>
+            <tbody id="findings-body"></tbody>
+          </table>
+        </div>
+        <h3>Masked text</h3>
+        <pre id="masked-output" class="masked-output">—</pre>
+      </section>
+
+      <section class="panel" id="review-panel">
+        <h2>3 · Clause risk review</h2>
+        <div id="review-source" class="review-source">No review yet.</div>
+        <p id="review-summary" class="review-summary"></p>
+        <div id="nano-summary" class="nano-summary hidden"></div>
+        <div id="clause-list" class="clause-list"></div>
+        <h3>Negotiation summary</h3>
+        <ul id="negotiation-list" class="negotiation-list">
+          <li class="empty">Counter-proposals will appear here.</li>
+        </ul>
+      </section>
+
+      <section class="panel" id="payload-panel">
+        <h2>4 · Exactly what leaves this device</h2>
+        <p class="hint" id="payload-note">
+          When a cloud review runs, the payload is the masked text and nothing
+          else. Review it here before anything is sent.
+        </p>
+        <pre id="payload-output" class="payload-output">Nothing has been sent.</pre>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        ContractLens provides general information about contract wording, not
+        legal advice. On-device masking uses Chrome's built-in Gemini Nano
+        (Prompt API, Chrome 139+ on desktop) plus deterministic safety-net
+        rules. Cloud review, when configured, uses Firebase AI Logic with the
+        Gemini Developer API and receives only masked text.
+      </p>
+    </footer>
+
+  </body>
+</html>
