@@ -1,6 +1,6 @@
 # ContractLens
 
-**Private contract review that never uploads your contract.**
+**Your contract gets reviewed. Your identity never leaves your device.**
 
 Paste a contract. Personal data (names, resident registration numbers, phone
 numbers, emails, bank account numbers, addresses) is detected and masked **on

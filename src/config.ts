@@ -28,3 +28,12 @@ export const cloudConfigured = Boolean(
 );
 
 export const cloudModel: string = env.VITE_GEMINI_CLOUD_MODEL || "gemini-2.5-flash";
+
+/**
+ * reCAPTCHA Enterprise site key for Firebase App Check (Fraud Defense
+ * provider; the classic reCAPTCHA provider is deprecated and disabled in
+ * the console). AI Logic enforces App Check on this project, so cloud
+ * review only works once this site key is set here and the same key is
+ * registered for the app in the Firebase console.
+ */
+export const appCheckSiteKey: string = env.VITE_RECAPTCHA_SITE_KEY || "";

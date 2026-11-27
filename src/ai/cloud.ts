@@ -1,4 +1,5 @@
 import { initializeApp, type FirebaseApp } from "firebase/app";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
 import {
   getAI,
   getGenerativeModel,
@@ -6,7 +7,7 @@ import {
   InferenceMode,
   type GenerativeModel,
 } from "firebase/ai";
-import { cloudConfigured, cloudModel, firebaseConfig } from "../config";
+import { appCheckSiteKey, cloudConfigured, cloudModel, firebaseConfig } from "../config";
 import type { ClauseFinding, ReviewResult, RiskLevel } from "./reviewTypes";
 
 /**
@@ -40,6 +41,14 @@ function ensureModel(): GenerativeModel {
     throw new Error("Firebase is not configured yet (Sprint 3 account pending).");
   }
   app = initializeApp(firebaseConfig);
+  if (appCheckSiteKey) {
+    // AI Logic enforces App Check on this project; without a token the
+    // cloud calls are rejected. Must be initialized before getAI.
+    initializeAppCheck(app, {
+      provider: new ReCaptchaEnterpriseProvider(appCheckSiteKey),
+      isTokenAutoRefreshEnabled: true,
+    });
+  }
   const ai = getAI(app, { backend: new GoogleAIBackend() });
   model = getGenerativeModel(ai, {
     model: cloudModel,
