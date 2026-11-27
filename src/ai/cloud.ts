@@ -4,7 +4,6 @@ import {
   getAI,
   getGenerativeModel,
   GoogleAIBackend,
-  InferenceMode,
   type GenerativeModel,
 } from "firebase/ai";
 import { appCheckSiteKey, cloudConfigured, cloudModel, firebaseConfig } from "../config";
@@ -52,11 +51,12 @@ function ensureModel(): GenerativeModel {
   const ai = getAI(app, { backend: new GoogleAIBackend() });
   model = getGenerativeModel(ai, {
     model: cloudModel,
-    // This module is the cloud path, so cloud only. (PREFER_IN_CLOUD made
-    // the SDK substitute a "-lite" model variant that new projects cannot
-    // call.) The app itself falls back to the on-device basic review when
-    // this call fails or the network is offline.
-    mode: InferenceMode.ONLY_IN_CLOUD,
+    // No InferenceMode here, on purpose: in this SDK version, setting any
+    // hybrid mode makes getGenerativeModel ignore the top-level model and
+    // generationConfig and silently substitute the default hybrid cloud
+    // model (gemini-2.5-flash-lite), which new projects cannot call (404).
+    // This module is the cloud path; the app itself falls back to the
+    // on-device basic review when this call fails or the network is off.
     generationConfig: { responseMimeType: "application/json" },
   });
   return model;
