@@ -27,7 +27,7 @@ export const cloudConfigured = Boolean(
     firebaseConfig.appId,
 );
 
-export const cloudModel: string = env.VITE_GEMINI_CLOUD_MODEL || "gemini-2.5-flash";
+export const cloudModel: string = env.VITE_GEMINI_CLOUD_MODEL || "gemini-3.5-flash-lite";
 
 /**
  * reCAPTCHA Enterprise site key for Firebase App Check (Fraud Defense

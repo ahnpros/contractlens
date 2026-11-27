@@ -52,8 +52,11 @@ function ensureModel(): GenerativeModel {
   const ai = getAI(app, { backend: new GoogleAIBackend() });
   model = getGenerativeModel(ai, {
     model: cloudModel,
-    // Deep review wants the cloud model; on-device is only a fallback here.
-    mode: InferenceMode.PREFER_IN_CLOUD,
+    // This module is the cloud path, so cloud only. (PREFER_IN_CLOUD made
+    // the SDK substitute a "-lite" model variant that new projects cannot
+    // call.) The app itself falls back to the on-device basic review when
+    // this call fails or the network is offline.
+    mode: InferenceMode.ONLY_IN_CLOUD,
     generationConfig: { responseMimeType: "application/json" },
   });
   return model;
